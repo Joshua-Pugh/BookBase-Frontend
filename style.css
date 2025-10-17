@@ -1,0 +1,464 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    color: #222;
+}
+
+header {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+header p {
+    opacity: 0.85;
+}
+
+.container {
+    max-width: 700px;
+    background: white;
+    margin: 2rem auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
+h2 {
+    text-align: center;
+    border-bottom: 2px solid #e0e4ff;
+    padding-bottom: 0.3rem;
+}
+
+main {
+    max-width: 600px;
+    margin: 2rem auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+input,
+textarea {
+  width: 48%;
+  margin: 0.5rem 1%;
+  padding: 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+textarea {
+  width: 100%; /* full width for better readability */
+  resize: vertical;
+  min-height: 100px;
+}
+
+
+button {
+    padding: 0.7rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background: #007bff;
+    color: white;
+    font-weight: 500;
+}
+
+/* Center the action buttons under the form */
+.form-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.form-actions button {
+  width: 150px;
+  text-align: center;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+.hidden {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+#toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #fff;
+    padding: 1rem 2rem;
+    border-radius: 6px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+#toast.show {
+    opacity: 1;
+}
+
+#loader {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #007bff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+    0% {transform: translate(-50%, -50%) rotate(0deg); }
+    100% {transform: translate(-50%, -50%) rotate(360deg);}
+}
+
+#bookList {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.book-item {
+  background: #fdfdfd;
+  border: 1px solid #e6e6e6;
+  border-radius: 6px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.6rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: box-shadow 0.2s ease;
+}
+
+.book-item button {
+  cursor: default;
+}
+
+.book-item:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Book info section */
+.book-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.book-title {
+  font-weight: 600;
+}
+
+.book-author {
+  font-style: italic;
+  color: #555;
+}
+
+/* Button container */
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+}
+
+.delete-btn:hover {
+  background-color: #b52a38;
+}
+
+#confirmModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.confirm-box {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  text-align: center;
+  width: 300px;
+  animation: fadeIn 0.2s ease;
+}
+
+.confirm-box h3 {
+  margin-top: 0;
+  color: #007bff;
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1rem;
+}
+
+#confirmYes {
+  background: #dc3545;
+  color: white;
+}
+
+#confirmYes:hover {
+  background: #b52a38;
+}
+
+#confirmNo {
+  background: #6c757d;
+  color: white;
+}
+
+#confirmNo:hover {
+  background: #5a6268;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+#bookModal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  animation: fadeInBg 0.3s ease;
+}
+
+.book-modal-box {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  padding: 2rem;
+  width: 400px;
+  max-width: 90%;
+  color: white;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.35s ease;
+  position: relative;
+}
+
+.book-modal-box h3 {
+  margin-top: 0;
+  font-size: 1.6rem;
+  letter-spacing: 0.5px;
+  color: #fff;
+}
+
+.book-modal-box p {
+  margin: 0.8rem 0;
+  line-height: 1.6;
+  color: #e6e6e6;
+}
+
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 1.5rem;
+  color: #ddd;
+  cursor: pointer;
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.close-btn:hover {
+  transform: scale(1.1);
+  color: #fff;
+}
+
+@keyframes fadeInBg {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+#bookModal.hidden {
+  display: none !important;
+}
+
+#feedbackFab {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background: #ffc107;
+  color: #222;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+  z-index: 999;
+}
+
+#feedbackFab:hover {
+  background: #e0a800;
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+#feedbackFab {
+  animation: popIn 0.6s ease forwards;
+  opacity: 0;
+}
+
+@keyframes popIn {
+  from {
+    transform: translateY(40px) scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Feedback Modal */
+#feedbackModal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: opacity 0.3s ease;
+}
+
+#feedbackModal.hidden {
+  display: none !important;
+  opacity: 0;
+}
+
+.feedback-box {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  width: 400px;
+  max-width: 90%;
+  animation: slideUp 0.3s ease;
+}
+
+.feedback-box h3 {
+  margin-top: 0;
+  color: #007bff;
+}
+
+.feedback-box p {
+  font-size: 0.9rem;
+  color: #444;
+  margin-bottom: 1rem;
+}
+
+.feedback-box input,
+.feedback-box textarea {
+  width: 100%;
+  padding: 0.7rem;
+  margin-bottom: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.feedback-box textarea {
+  resize: vertical;
+}
+
+.feedback-box .form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.feedback-box button {
+  flex: 1;
+  margin: 0 0.3rem;
+  padding: 0.7rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.feedback-box button[type="submit"] {
+  background: #007bff;
+  color: white;
+}
+
+.feedback-box button[type="submit"]:hover {
+  background: #0056b3;
+}
+
+#closeFeedbackBtn {
+  background: #6c757d;
+  color: white;
+}
+
+#closeFeedbackBtn:hover {
+  background: #5a6268;
+}
+
+/* Animation for the modal */
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
