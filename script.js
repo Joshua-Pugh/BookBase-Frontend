@@ -12,8 +12,29 @@ const listEl = document.getElementById('bookList');
 let editingId = null; // null = create mode, number = edit mode
 
 // ---- UX helpers (spinner + toast) ----
-function showLoader() {document.getElementById('loader').classList.remove('hidden'); }
-function hideLoader() {document.getElementById('loader').classList.add('hidden'); }
+let loaderTimer = null;
+
+function showLoader() {
+  const overlay = document.getElementById('loaderOverlay');
+  const message = document.getElementById('loaderMessage');
+
+  overlay.classList.remove('hidden');
+  message.classList.add('hidden');
+
+  clearTimeout(loaderTimer);
+  loaderTimer = setTimeout(() => {
+    message.classList.remove('hidden');
+  }, 6000);
+}
+
+function hideLoader() {
+  const overlay = document.getElementById('loaderOverlay');
+  const message = document.getElementById('loaderMessage');
+
+  clearTimeout(loaderTimer);
+  overlay.classList.add('hidden');
+  message.classList.add('hidden');
+}
 
 function showToast(msg, type = 'success') {
     const toast = document.getElementById('toast');
@@ -99,8 +120,8 @@ form.addEventListener('submit', async (e) => {
     authorInput.value = '';
     summaryInput.value = '';
     editingId = null;
-    submitBtn = 'Add Book';
-    cancelBtn = 'hidden';
+    submitBtn.textContent = 'Add Book';
+    cancelBtn.classList.add('hidden');
 
 });
 
@@ -174,7 +195,7 @@ async function createBook(title, author, summary) {
     showLoader();
     try {
         const res = await fetch(`${BASE_API_URL}/createOne`, {
-            method: 'Post',
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ title, author, summary})
         });
